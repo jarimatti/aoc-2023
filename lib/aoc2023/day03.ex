@@ -5,6 +5,19 @@ defmodule Aoc2023.Day03 do
 
   def part1(data) do
     data
+    |> parse_map()
+    |> numbers_next_to_symbol()
+    |> Enum.sum()
+  end
+
+  def part2(data) do
+    data
+    |> parse_map()
+    |> IO.inspect()
+  end
+
+  defp parse_map(data) do
+    data
     |> String.split("\n")
     |> Enum.map(&String.trim/1)
     |> Enum.with_index()
@@ -12,10 +25,6 @@ defmodule Aoc2023.Day03 do
       elements_with_positions = parse_elements_with_positions(line, y)
       Map.merge(acc, elements_with_positions)
     end)
-    |> numbers_next_to_symbol()
-    |> Enum.sum()
-
-    # 529408 is too high
   end
 
   defp parse_elements_with_positions(line, y) do

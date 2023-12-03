@@ -167,4 +167,21 @@ defmodule Aoc2023.Day03Test do
       assert Day03.part1(d) == 0
     end)
   end
+
+  test "part 2 sample works" do
+    data = """
+    467..114..
+    ...*......
+    ..35..633.
+    ......#...
+    617*......
+    .....+.58.
+    ..592.....
+    ......755.
+    ...$.*....
+    .664.598..
+    """
+
+    assert Aoc2023.Day03.part2(data) == 467*35 + 755*598
+  end
 end
