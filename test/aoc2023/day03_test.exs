@@ -182,6 +182,6 @@ defmodule Aoc2023.Day03Test do
     .664.598..
     """
 
-    assert Aoc2023.Day03.part2(data) == 467*35 + 755*598
+    assert Aoc2023.Day03.part2(data) == 467 * 35 + 755 * 598
   end
 end

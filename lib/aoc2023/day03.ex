@@ -11,9 +11,37 @@ defmodule Aoc2023.Day03 do
   end
 
   def part2(data) do
-    data
-    |> parse_map()
-    |> IO.inspect()
+    map = parse_map(data)
+
+    possible_gears =
+      map
+      |> symbol_by_position()
+      |> Map.filter(fn
+        {_, "*"} -> true
+        _ -> false
+      end)
+      |> Map.keys()
+
+    numbers =
+      map
+      |> Map.filter(fn {_, v} -> is_integer(v) end)
+
+    possible_gears
+    |> Enum.map(fn pos ->
+      neighbouring_numbers =
+        Enum.filter(numbers, fn {k, _} ->
+          k
+          |> neighbours()
+          |> MapSet.new()
+          |> MapSet.member?(pos)
+        end)
+
+      case neighbouring_numbers do
+        [{_, a}, {_, b}] -> a * b
+        _ -> 0
+      end
+    end)
+    |> Enum.sum()
   end
 
   defp parse_map(data) do
@@ -32,13 +60,12 @@ defmodule Aoc2023.Day03 do
 
     start_and_lenghts = Regex.scan(pattern, line, capture: :first, return: :index)
 
-    Enum.map(start_and_lenghts, fn [{x, len}] ->
+    Map.new(start_and_lenghts, fn [{x, len}] ->
       substring = String.slice(line, x, len)
       element = parse_element(substring)
 
       {{{x, len}, y}, element}
     end)
-    |> Map.new()
   end
 
   defp parse_element(elem) do
