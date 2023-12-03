@@ -14,6 +14,17 @@ defmodule Aoc2023.Day02 do
     |> Enum.sum()
   end
 
+  def part2(data) do
+    data
+    |> String.split("\n")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&empty_string?/1)
+    |> Enum.map(&parse_game/1)
+    |> Enum.map(&minimum_bag/1)
+    |> Enum.map(&power/1)
+    |> Enum.sum()
+  end
+
   defp part1_bag() do
     %{
       red: 12,
@@ -72,5 +83,25 @@ defmodule Aoc2023.Day02 do
       end
 
     {colour, count}
+  end
+
+  defp minimum_bag({_, moves}) do
+    %{
+      red: minimum_colour(moves, :red),
+      green: minimum_colour(moves, :green),
+      blue: minimum_colour(moves, :blue)
+    }
+  end
+
+  defp minimum_colour(moves, colour) do
+    moves
+    |> Enum.map(fn bag -> Map.get(bag, colour, 0) end)
+    |> Enum.max()
+  end
+
+  defp power(bag) do
+    bag
+    |> Map.values()
+    |> Enum.product()
   end
 end
