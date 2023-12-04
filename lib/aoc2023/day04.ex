@@ -5,29 +5,43 @@ defmodule Aoc2023.Day04 do
 
   def part1(data) do
     data
-    |> String.split("\n")
-    |> Enum.map(&String.trim/1)
-    |> Enum.reject(&empty?/1)
-    |> Enum.map(&parse_card/1)
+    |> parse_cards()
+    |> Map.values()
     |> Enum.map(&card_score/1)
     |> Enum.sum()
   end
 
   def part2(data) do
-    0
+    data
+    |> parse_cards()
+  end
+
+  defp parse_cards(data) do
+    data
+    |> String.split("\n")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&empty?/1)
+    |> Enum.map(&parse_card/1)
+    |> Map.new()
   end
 
   defp empty?(""), do: true
   defp empty?(s) when is_binary(s), do: false
 
   defp parse_card(line) do
-    [_, numbers] = String.split(line, ":")
+    [id_string, numbers] = String.split(line, ":")
+
+    id =
+      case id_string do
+        "Card " <> id -> String.to_integer(id)
+      end
+
     [winning_numbers, card_numbers] = String.split(numbers, " | ")
 
     w = parse_numbers(winning_numbers)
     c = parse_numbers(card_numbers)
 
-    {MapSet.new(w), MapSet.new(c)}
+    {id, {MapSet.new(w), MapSet.new(c)}}
   end
 
   defp parse_numbers(numbers_string) do
