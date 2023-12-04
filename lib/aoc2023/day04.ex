@@ -13,6 +13,10 @@ defmodule Aoc2023.Day04 do
     |> Enum.sum()
   end
 
+  def part2(data) do
+    0
+  end
+
   defp empty?(""), do: true
   defp empty?(s) when is_binary(s), do: false
 
