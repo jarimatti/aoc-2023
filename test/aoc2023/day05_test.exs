@@ -3,8 +3,8 @@ defmodule Aoc2023.Day05Test do
 
   alias Aoc2023.Day05
 
-  test "part 1 with sample data" do
-    data = """
+  def data() do
+    """
     seeds: 79 14 55 13
     
     seed-to-soil map:
@@ -39,7 +39,9 @@ defmodule Aoc2023.Day05Test do
     60 56 37
     56 93 4
     """
+  end
 
-    assert Day05.part1(data) == 35
+  test "part 1 with sample data" do
+    assert Day05.part1(data()) == 35
   end
 end
