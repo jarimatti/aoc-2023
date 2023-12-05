@@ -12,6 +12,15 @@ defmodule Aoc2023.Day05 do
     |> Enum.min()
   end
 
+  def part2(data) do
+    seeds_and_mappings = parse_data(data)
+
+    seeds_and_mappings[:seeds]
+    |> Enum.map(fn s -> seed_to_location(s, seeds_and_mappings) end)
+    |> Enum.map(fn {:location, x} -> x end)
+    |> Enum.min()
+  end
+
   def parse_data(data) do
     data
     |> String.split("\n")
