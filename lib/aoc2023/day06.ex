@@ -11,9 +11,22 @@ defmodule Aoc2023.Day06 do
     |> Enum.product()
   end
 
-  def part2(_data) do
-    # stub
-    0
+  def part2(data) do
+    {t_max, s_max} =
+      data
+      |> parse_races()
+      |> Enum.reduce({"", ""}, fn {t, s}, {ta, sa} ->
+
+        {
+          ta <> Integer.to_string(t),
+          sa <> Integer.to_string(s)
+        }
+      end)
+
+    t_max = String.to_integer(t_max)
+    s_max = String.to_integer(s_max)
+
+    count_ways_to_win({t_max, s_max})
   end
 
   defp parse_races(data) do
