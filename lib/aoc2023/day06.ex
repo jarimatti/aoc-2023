@@ -11,6 +11,11 @@ defmodule Aoc2023.Day06 do
     |> Enum.product()
   end
 
+  def part2(_data) do
+    # stub
+    0
+  end
+
   defp parse_races(data) do
     [time_line, distance_line | _] = String.split(data, "\n")
 
