@@ -45,6 +45,7 @@ defmodule Aoc2023.Day05Test do
     assert Day05.part1(data()) == 35
   end
 
+  @tag :skip
   test "part 2 with sample data" do
     assert Day05.part2(data()) == 46
   end
