@@ -6,31 +6,57 @@ defmodule Aoc2023.Day08 do
   def part1(data) do
     {instructions, map} = parse_data(data)
 
+    run(instructions, map, ["AAA"], &reached_goal1/1)
+  end
+
+  def part2(data) do
+    {instructions, map} = parse_data(data)
+
+    vertices = :digraph.vertices(map)
+    start_vertices = Enum.filter(vertices, fn s -> String.ends_with?(s, "A") end)
+
+    run(instructions, map, start_vertices, &reached_goal2/1)
+  end
+
+  defp run(instructions, map, start_vertices, reached_goal) do
     instructions
     |> Stream.cycle()
-    |> Stream.transform("AAA", fn
-      _, "ZZZ" ->
-        {:halt, "ZZZ"}
+    |> Stream.transform(start_vertices, fn dir, vertices ->
+      case reached_goal.(vertices) do
+        true ->
+          {:halt, vertices}
 
-      dir, vertex ->
-        edges = :digraph.out_edges(map, vertex)
+        false ->
+          new_vertices =
+            vertices
+            |> Task.async_stream(fn v -> step_vertex(map, v, dir) end)
+            |> Enum.map(fn {:ok, x} -> x end)
 
-        {_, _, to, _} =
-          edges
-          |> Enum.map(fn e -> :digraph.edge(map, e) end)
-          |> Enum.find(fn
-            {_, _, _, [^dir]} -> true
-            _ -> false
-          end)
-
-        {[to], to}
+          {[1], new_vertices}
+      end
     end)
     |> Enum.count()
   end
 
-  def part2(_data) do
-    # stub
-    0
+  def reached_goal1(["ZZZ"]), do: true
+  def reached_goal1([_]), do: false
+
+  def reached_goal2(vertices) do
+    Enum.all?(vertices, fn s -> String.ends_with?(s, "Z") end)
+  end
+
+  defp step_vertex(map, vertex, dir) do
+    edges = :digraph.out_edges(map, vertex)
+
+    {_, _, to, _} =
+      edges
+      |> Enum.map(fn e -> :digraph.edge(map, e) end)
+      |> Enum.find(fn
+        {_, _, _, [^dir]} -> true
+        _ -> false
+      end)
+
+    to
   end
 
   defp parse_data(data) do
