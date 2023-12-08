@@ -48,6 +48,6 @@ defmodule Aoc2023.Day08Test do
       XXX = (XXX, XXX)
       """
 
-      assert Day08.part2(data) == 6
+    assert Day08.part2(data) == 6
   end
 end

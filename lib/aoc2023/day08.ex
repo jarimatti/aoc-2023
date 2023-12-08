@@ -12,7 +12,7 @@ defmodule Aoc2023.Day08 do
   def part2(data) do
     {instructions, map} = parse_data(data)
 
-    vertices = :digraph.vertices(map)
+    vertices = Map.keys(map)
     start_vertices = Enum.filter(vertices, fn s -> String.ends_with?(s, "A") end)
 
     run(instructions, map, start_vertices, &reached_goal2/1)
@@ -21,21 +21,17 @@ defmodule Aoc2023.Day08 do
   defp run(instructions, map, start_vertices, reached_goal) do
     instructions
     |> Stream.cycle()
-    |> Stream.transform(start_vertices, fn dir, vertices ->
+    |> Enum.reduce_while({0, start_vertices}, fn dir, {count, vertices} ->
       case reached_goal.(vertices) do
         true ->
-          {:halt, vertices}
+          {:halt, count}
 
         false ->
-          new_vertices =
-            vertices
-            |> Task.async_stream(fn v -> step_vertex(map, v, dir) end)
-            |> Enum.map(fn {:ok, x} -> x end)
+          new_vertices = Enum.map(vertices, fn v -> step_vertex(map, v, dir) end)
 
-          {[1], new_vertices}
+          {:cont, {count + 1, new_vertices}}
       end
     end)
-    |> Enum.count()
   end
 
   def reached_goal1(["ZZZ"]), do: true
@@ -46,17 +42,12 @@ defmodule Aoc2023.Day08 do
   end
 
   defp step_vertex(map, vertex, dir) do
-    edges = :digraph.out_edges(map, vertex)
+    {left, right} = Map.get(map, vertex)
 
-    {_, _, to, _} =
-      edges
-      |> Enum.map(fn e -> :digraph.edge(map, e) end)
-      |> Enum.find(fn
-        {_, _, _, [^dir]} -> true
-        _ -> false
-      end)
-
-    to
+    case dir do
+      :left -> left
+      :right -> right
+    end
   end
 
   defp parse_data(data) do
@@ -82,19 +73,10 @@ defmodule Aoc2023.Day08 do
   end
 
   defp parse_map(map_strings) do
-    graph = :digraph.new()
-
     map_strings
     |> Enum.map(&parse_map_line/1)
-    |> Enum.reduce(graph, fn {from, left, right}, graph ->
-      :digraph.add_vertex(graph, from)
-      :digraph.add_vertex(graph, left)
-      :digraph.add_vertex(graph, right)
-
-      :digraph.add_edge(graph, from, left, [:left])
-      :digraph.add_edge(graph, from, right, [:right])
-
-      graph
+    |> Enum.reduce(%{}, fn {from, left, right}, map ->
+      Map.put(map, from, {left, right})
     end)
   end
 
