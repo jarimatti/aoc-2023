@@ -7,7 +7,7 @@ defmodule Aoc2023.Day07 do
   def part1(data) do
     data
     |> parse_hands_and_bids()
-    |> Enum.sort_by(fn {t, h, _b} -> {t, h} end, &compare/2)
+    |> Enum.sort_by(fn {t, h, _b} -> {t, h} end)
     |> Enum.with_index(1)
     |> Enum.map(fn {{_, _, bid}, rank} -> bid * rank end)
     |> Enum.sum()
@@ -72,8 +72,5 @@ defmodule Aoc2023.Day07 do
       [1, 1, 1, 1, 1] -> Enum.max(hand)
     end
   end
-
-  defp compare({t, h1}, {t, h2}), do: h1 <= h2
-  defp compare({t1, _h1}, {t2, _h2}), do: t2 > t1
 
 end
