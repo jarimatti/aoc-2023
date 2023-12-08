@@ -68,7 +68,7 @@ defmodule Aoc2023.Day07 do
       [3, 1, 1] -> 300
       [2, 2, 1] -> 200
       [2, 1, 1, 1] -> 100
-      [1, 1, 1, 1, 1] -> Enum.max(hand)
+      [1, 1, 1, 1, 1] -> 10 # The high card is _type_ so we ignore what was the highest card!
     end
   end
 end
