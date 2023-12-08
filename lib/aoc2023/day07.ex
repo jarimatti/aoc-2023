@@ -6,15 +6,22 @@ defmodule Aoc2023.Day07 do
   def part1(data) do
     data
     |> parse_hands_and_bids()
+    |> Enum.map(fn {hand, bid} ->
+      {score(hand), hand, bid}
+    end)
     |> Enum.sort_by(fn {t, h, _b} -> {t, h} end)
     |> Enum.with_index(1)
     |> Enum.map(fn {{_, _, bid}, rank} -> bid * rank end)
     |> Enum.sum()
   end
 
-  def part2(_data) do
-    # stub
-    0
+  def part2(data) do
+    data
+    |> parse_hands_and_bids()
+    |> Enum.map(fn {hand, bid} ->
+      hand = remap_joker(hand)
+      {score_with_joker(hand), hand, bid}
+    end)
   end
 
   defp parse_hands_and_bids(string) do
@@ -22,9 +29,6 @@ defmodule Aoc2023.Day07 do
     |> String.split("\n")
     |> Enum.reject(&empty_string?/1)
     |> Enum.map(&parse_line/1)
-    |> Enum.map(fn {hand, bid} ->
-      {score(hand), hand, bid}
-    end)
   end
 
   defp empty_string?(""), do: true
@@ -73,7 +77,20 @@ defmodule Aoc2023.Day07 do
       [3, 1, 1] -> 300
       [2, 2, 1] -> 200
       [2, 1, 1, 1] -> 100
-      [1, 1, 1, 1, 1] -> 10 # The high card is _type_ so we ignore what was the highest card!
+      # The high card is _type_ so we ignore what was the highest card!
+      [1, 1, 1, 1, 1] -> 10
     end
+  end
+
+  defp score_with_joker(hand) do
+    # stub
+    0
+  end
+
+  defp remap_joker(cards) do
+    Enum.map(cards, fn
+      10 -> 1
+      c -> c
+    end)
   end
 end
