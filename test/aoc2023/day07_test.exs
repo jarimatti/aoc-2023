@@ -18,6 +18,6 @@ defmodule Aoc2023.Day07Test do
   end
 
   test "part 1 real data" do
-    assert Day07.part1(Day07.input()) > 251062340
+    assert Day07.part1(Day07.input()) > 251_062_340
   end
 end

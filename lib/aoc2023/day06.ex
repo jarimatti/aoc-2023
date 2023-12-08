@@ -16,7 +16,6 @@ defmodule Aoc2023.Day06 do
       data
       |> parse_races()
       |> Enum.reduce({"", ""}, fn {t, s}, {ta, sa} ->
-
         {
           ta <> Integer.to_string(t),
           sa <> Integer.to_string(s)

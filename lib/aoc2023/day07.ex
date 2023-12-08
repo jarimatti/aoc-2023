@@ -1,5 +1,4 @@
 defmodule Aoc2023.Day07 do
-
   def input() do
     File.read!("input/day07.txt")
   end
@@ -72,5 +71,4 @@ defmodule Aoc2023.Day07 do
       [1, 1, 1, 1, 1] -> Enum.max(hand)
     end
   end
-
 end
