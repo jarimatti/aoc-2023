@@ -9,10 +9,7 @@ defmodule Aoc2023.Day07 do
     |> Enum.map(fn {hand, bid} ->
       {score(hand), hand, bid}
     end)
-    |> Enum.sort_by(fn {t, h, _b} -> {t, h} end)
-    |> Enum.with_index(1)
-    |> Enum.map(fn {{_, _, bid}, rank} -> bid * rank end)
-    |> Enum.sum()
+    |> sort_and_calculate_score()
   end
 
   def part2(data) do
@@ -22,6 +19,15 @@ defmodule Aoc2023.Day07 do
       hand = remap_joker(hand)
       {score_with_joker(hand), hand, bid}
     end)
+    |> sort_and_calculate_score()
+  end
+
+  defp sort_and_calculate_score(hands) do
+    hands
+    |> Enum.sort_by(fn {t, h, _b} -> {t, h} end)
+    |> Enum.with_index(1)
+    |> Enum.map(fn {{_, _, bid}, rank} -> bid * rank end)
+    |> Enum.sum()
   end
 
   defp parse_hands_and_bids(string) do
@@ -83,13 +89,42 @@ defmodule Aoc2023.Day07 do
   end
 
   defp score_with_joker(hand) do
-    # stub
-    0
+    all_counts = Enum.frequencies(hand)
+
+    jokers = all_counts[0] || 0
+
+    counts =
+      all_counts
+      |> Map.delete(0)
+      |> Map.values()
+      |> Enum.sort(:desc)
+
+    max_count =
+      case counts do
+        [] -> 0
+        c -> Enum.max(c)
+      end
+
+    case {counts, jokers, max_count + jokers} do
+      {_, _, 5} -> 600
+      {_, _, 4} -> 500
+      {[3, 2], 0, _} -> 400
+      {[3, 1], 1, _} -> 400
+      {[2, 2], 1, _} -> 400
+      {[3, 1, 1], 0, _} -> 300
+      {[2, 1, 1], 1, _} -> 300
+      {[1, 1, 1], 2, _} -> 300
+      {[2, 2, 1], 0, _} -> 200
+      {[2, 1, 1, 1], 0, _} -> 100
+      {[1, 1, 1, 1], 1, _} -> 100
+      # The high card is _type_ so we ignore what was the highest card!
+      {[1, 1, 1, 1, 1], 0, _} -> 10
+    end
   end
 
   defp remap_joker(cards) do
     Enum.map(cards, fn
-      10 -> 1
+      10 -> 0
       c -> c
     end)
   end
