@@ -6,7 +6,7 @@ defmodule Aoc2023.Day08 do
   def part1(data) do
     {instructions, map} = parse_data(data)
 
-    run(instructions, map, ["AAA"], &reached_goal1/1)
+    run(instructions, map, "AAA", &reached_goal1/1)
   end
 
   def part2(data) do
@@ -18,27 +18,25 @@ defmodule Aoc2023.Day08 do
     run(instructions, map, start_vertices, &reached_goal2/1)
   end
 
-  defp run(instructions, map, start_vertices, reached_goal) do
+  defp run(instructions, map, start_vertex, reached_goal) do
     instructions
     |> Stream.cycle()
-    |> Enum.reduce_while({0, start_vertices}, fn dir, {count, vertices} ->
-      case reached_goal.(vertices) do
+    |> Enum.reduce_while({0, start_vertex}, fn dir, {count, vertex} ->
+      case reached_goal.(vertex) do
         true ->
           {:halt, count}
 
         false ->
-          new_vertices = Enum.map(vertices, fn v -> step_vertex(map, v, dir) end)
-
-          {:cont, {count + 1, new_vertices}}
+          {:cont, {count + 1, step_vertex(map, vertex, dir)}}
       end
     end)
   end
 
-  def reached_goal1(["ZZZ"]), do: true
-  def reached_goal1([_]), do: false
+  def reached_goal1("ZZZ"), do: true
+  def reached_goal1(_), do: false
 
-  def reached_goal2(vertices) do
-    Enum.all?(vertices, fn s -> String.ends_with?(s, "Z") end)
+  def reached_goal2(vertex) do
+    String.ends_with?(vertex, "Z")
   end
 
   defp step_vertex(map, vertex, dir) do
