@@ -16,4 +16,8 @@ defmodule Aoc2023.Day07Test do
   test "part 1 sample data" do
     assert Day07.part1(data()) == 6440
   end
+
+  test "part 1 real data" do
+    assert Day07.part1(Day07.input()) > 251062340
+  end
 end
