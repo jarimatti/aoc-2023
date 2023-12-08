@@ -28,6 +28,11 @@ defmodule Aoc2023.Day08 do
     |> Enum.count()
   end
 
+  def part2(_data) do
+    # stub
+    0
+  end
+
   defp parse_data(data) do
     [instruction_string | map_strings] =
       data
