@@ -40,4 +40,7 @@ defmodule Aoc2023.Day07Test do
     assert Day07.part1(data) == 101 * 1 + 220 * 2
   end
 
+  test "part 2 sample data" do
+    assert Day07.part2(data()) == 5905
+  end
 end

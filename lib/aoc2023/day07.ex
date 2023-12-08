@@ -12,6 +12,11 @@ defmodule Aoc2023.Day07 do
     |> Enum.sum()
   end
 
+  def part2(_data) do
+    # stub
+    0
+  end
+
   defp parse_hands_and_bids(string) do
     string
     |> String.split("\n")
