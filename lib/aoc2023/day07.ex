@@ -18,7 +18,7 @@ defmodule Aoc2023.Day07 do
     |> Enum.reject(&empty_string?/1)
     |> Enum.map(&parse_line/1)
     |> Enum.map(fn {hand, bid} ->
-      {type(hand), hand, bid}
+      {score(hand), hand, bid}
     end)
   end
 
@@ -54,7 +54,7 @@ defmodule Aoc2023.Day07 do
     end
   end
 
-  defp type(hand) do
+  defp score(hand) do
     counts =
       hand
       |> Enum.frequencies()
