@@ -57,8 +57,8 @@ defmodule Aoc2023.Day07 do
   defp type(hand) do
     counts =
       hand
-      |> MapSet.new()
-      |> Enum.map(fn c -> Enum.count(hand, fn a -> a == c end) end)
+      |> Enum.frequencies()
+      |> Map.values()
       |> Enum.sort(:desc)
 
     case counts do

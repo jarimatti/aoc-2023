@@ -17,6 +17,19 @@ defmodule Aoc2023.Day07Test do
     assert Day07.part1(data()) == 6440
   end
 
+  test "part 1 when same hands with different bids are present" do
+    data =
+      """
+      32T3K 765
+      T55J5 684
+      KK677 28
+      KTJJT 220
+      T55J5 483
+      """
+
+    assert Day07.part1(data) == 6440
+  end
+
   test "part 1 real data" do
     assert Day07.part1(Day07.input()) > 251_062_340
   end
