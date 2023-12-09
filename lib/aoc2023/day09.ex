@@ -36,8 +36,13 @@ defmodule Aoc2023.Day09 do
   end
 
   defp previous_number(history) do
-    # stub
-    0
+    case done?(history) do
+      true ->
+        hd(history)
+
+      false ->
+        hd(history) - previous_number(delta(history))
+    end
   end
 
   defp done?(history) do
