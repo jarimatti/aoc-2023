@@ -75,9 +75,7 @@ defmodule Aoc2023.Day08 do
   defp parse_map(map_strings) do
     map_strings
     |> Enum.map(&parse_map_line/1)
-    |> Enum.reduce(%{}, fn {from, left, right}, map ->
-      Map.put(map, from, {left, right})
-    end)
+    |> Map.new()
   end
 
   defp parse_map_line(line) do
@@ -89,7 +87,7 @@ defmodule Aoc2023.Day08 do
       |> String.trim_trailing(")")
       |> String.split(", ", parts: 2)
 
-    {node, left, right}
+    {node, {left, right}}
   end
 
   defp lcm(numbers) do
