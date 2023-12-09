@@ -31,7 +31,7 @@ defmodule Aoc2023.Day09 do
         List.last(history)
 
       false ->
-        next_number(delta(history)) + List.last(history)
+        List.last(history) + next_number(delta(history))
     end
   end
 
