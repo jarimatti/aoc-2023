@@ -10,6 +10,13 @@ defmodule Aoc2023.Day09 do
     |> Enum.sum()
   end
 
+  def part2(data) do
+    data
+    |> parse_data()
+    |> Enum.map(&previous_number/1)
+    |> Enum.sum()
+  end
+
   defp parse_data(data) do
     data
     |> String.split("\n")
@@ -26,6 +33,11 @@ defmodule Aoc2023.Day09 do
       false ->
         next_number(delta(history)) + List.last(history)
     end
+  end
+
+  defp previous_number(history) do
+    # stub
+    0
   end
 
   defp done?(history) do
