@@ -21,13 +21,10 @@ defmodule Aoc2023.Day05 do
     data
     |> String.split("\n")
     |> Enum.map(&String.trim/1)
-    |> Enum.chunk_by(&empty_string?/1)
+    |> Enum.chunk_by(&Aoc2023.empty_string?/1)
     |> Enum.reject(fn x -> x == [""] end)
     |> Enum.reduce(%{}, &parse_section/2)
   end
-
-  defp empty_string?(""), do: true
-  defp empty_string?(_), do: false
 
   defp parse_section(["seeds: " <> line], acc) do
     seeds =

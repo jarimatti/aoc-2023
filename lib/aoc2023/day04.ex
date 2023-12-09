@@ -27,13 +27,10 @@ defmodule Aoc2023.Day04 do
     data
     |> String.split("\n")
     |> Enum.map(&String.trim/1)
-    |> Enum.reject(&empty?/1)
+    |> Enum.reject(&Aoc2023.empty_string?/1)
     |> Enum.map(&parse_card/1)
     |> Map.new()
   end
-
-  defp empty?(""), do: true
-  defp empty?(s) when is_binary(s), do: false
 
   defp parse_card(line) do
     [id_string, numbers] = String.split(line, ":")

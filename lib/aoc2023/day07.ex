@@ -33,12 +33,9 @@ defmodule Aoc2023.Day07 do
   defp parse_hands_and_bids(string) do
     string
     |> String.split("\n")
-    |> Enum.reject(&empty_string?/1)
+    |> Enum.reject(&Aoc2023.empty_string?/1)
     |> Enum.map(&parse_line/1)
   end
-
-  defp empty_string?(""), do: true
-  defp empty_string?(_), do: false
 
   defp parse_line(line) do
     [cards_string, bid_string] = String.split(line)

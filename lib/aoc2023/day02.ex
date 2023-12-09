@@ -7,7 +7,7 @@ defmodule Aoc2023.Day02 do
     data
     |> String.split("\n")
     |> Enum.map(&String.trim/1)
-    |> Enum.reject(&empty_string?/1)
+    |> Enum.reject(&Aoc2023.empty_string?/1)
     |> Enum.map(&parse_game/1)
     |> Enum.filter(fn game -> is_game_possible(game, part1_bag()) end)
     |> Enum.map(fn {{:id, id}, _} -> id end)
@@ -18,7 +18,7 @@ defmodule Aoc2023.Day02 do
     data
     |> String.split("\n")
     |> Enum.map(&String.trim/1)
-    |> Enum.reject(&empty_string?/1)
+    |> Enum.reject(&Aoc2023.empty_string?/1)
     |> Enum.map(&parse_game/1)
     |> Enum.map(&minimum_bag/1)
     |> Enum.map(&power/1)
@@ -42,9 +42,6 @@ defmodule Aoc2023.Day02 do
       Map.get(move, :green, 0) <= bag.green and
       Map.get(move, :blue, 0) <= bag.blue
   end
-
-  defp empty_string?(""), do: true
-  defp empty_string?(_), do: false
 
   defp parse_game(line) do
     [id_part, moves_part] = String.split(line, ":")
