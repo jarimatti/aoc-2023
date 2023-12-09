@@ -6,14 +6,14 @@ defmodule Aoc2023.Day09 do
   def part1(data) do
     data
     |> parse_data()
-    |> Enum.map(&next_number/1)
+    |> Enum.map(fn h -> next_number(h, &List.last/1, &+/2) end)
     |> Enum.sum()
   end
 
   def part2(data) do
     data
     |> parse_data()
-    |> Enum.map(&previous_number/1)
+    |> Enum.map(fn h -> next_number(h, &hd/1, &-/2) end)
     |> Enum.sum()
   end
 
@@ -25,23 +25,13 @@ defmodule Aoc2023.Day09 do
     |> Enum.map(fn l -> Enum.map(l, &String.to_integer/1) end)
   end
 
-  defp next_number(history) do
+  defp next_number(history, map, reduce) do
     case done?(history) do
       true ->
-        List.last(history)
+        map.(history)
 
       false ->
-        List.last(history) + next_number(delta(history))
-    end
-  end
-
-  defp previous_number(history) do
-    case done?(history) do
-      true ->
-        hd(history)
-
-      false ->
-        hd(history) - previous_number(delta(history))
+        reduce.(map.(history), next_number(delta(history), map, reduce))
     end
   end
 
