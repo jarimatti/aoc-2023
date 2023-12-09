@@ -7,7 +7,7 @@ defmodule Aoc2023.Day08Test do
     data =
       """
       RL
-
+      
       AAA = (BBB, CCC)
       BBB = (DDD, EEE)
       CCC = (ZZZ, GGG)
@@ -24,7 +24,7 @@ defmodule Aoc2023.Day08Test do
     data =
       """
       LLR
-
+      
       AAA = (BBB, BBB)
       BBB = (AAA, ZZZ)
       ZZZ = (ZZZ, ZZZ)
@@ -37,7 +37,7 @@ defmodule Aoc2023.Day08Test do
     data =
       """
       LR
-
+      
       11A = (11B, XXX)
       11B = (XXX, 11Z)
       11Z = (11B, XXX)

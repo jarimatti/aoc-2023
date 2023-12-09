@@ -95,10 +95,10 @@ defmodule Aoc2023.Day08 do
   end
 
   defp lcm(a, b) do
-    div(abs(a*b), gcd(a, b))
+    div(abs(a * b), gcd(a, b))
   end
 
   defp gcd(a, a), do: a
-  defp gcd(a, b) when a > b, do: gcd(a-b, b)
-  defp gcd(a, b) when a < b, do: gcd(a, b-a)
+  defp gcd(a, b) when a > b, do: gcd(a - b, b)
+  defp gcd(a, b) when a < b, do: gcd(a, b - a)
 end
