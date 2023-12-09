@@ -15,7 +15,9 @@ defmodule Aoc2023.Day08 do
     vertices = Map.keys(map)
     start_vertices = Enum.filter(vertices, fn s -> String.ends_with?(s, "A") end)
 
-    run(instructions, map, start_vertices, &reached_goal2/1)
+    start_vertices
+    |> Enum.map(fn v -> run(instructions, map, v, &reached_goal2/1) end)
+    |> lcm()
   end
 
   defp run(instructions, map, start_vertex, reached_goal) do
@@ -89,4 +91,16 @@ defmodule Aoc2023.Day08 do
 
     {node, left, right}
   end
+
+  defp lcm(numbers) do
+    Enum.reduce(numbers, &lcm/2)
+  end
+
+  defp lcm(a, b) do
+    div(abs(a*b), gcd(a, b))
+  end
+
+  defp gcd(a, a), do: a
+  defp gcd(a, b) when a > b, do: gcd(a-b, b)
+  defp gcd(a, b) when a < b, do: gcd(a, b-a)
 end
