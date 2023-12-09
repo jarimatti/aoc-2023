@@ -1,5 +1,4 @@
 defmodule Aoc2023.Day09 do
-
   def input() do
     File.read!("input/day09.txt")
   end
@@ -23,8 +22,8 @@ defmodule Aoc2023.Day09 do
     case done?(history) do
       true ->
         List.last(history)
-      false ->
 
+      false ->
         next_number(delta(history)) + List.last(history)
     end
   end
