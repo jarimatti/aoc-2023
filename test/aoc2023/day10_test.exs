@@ -54,5 +54,4 @@ defmodule Aoc2023.Day10Test do
 
     assert Day10.part1(data) == 8
   end
-
 end
