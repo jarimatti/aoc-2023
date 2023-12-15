@@ -6,6 +6,9 @@ defmodule Aoc2023.Day13 do
   def part1(data) do
     data
     |> parse_data()
+    |> Enum.map(fn map ->
+      {map, transpose(map)}
+    end)
     |> Enum.map(&mirror_position/1)
     |> Enum.map(&summarize/1)
     |> Enum.sum()
@@ -17,9 +20,6 @@ defmodule Aoc2023.Day13 do
     |> Enum.map(&String.trim/1)
     |> Enum.chunk_by(&Aoc2023.empty_string?/1)
     |> Enum.reject(fn x -> x == [""] end)
-    |> Enum.map(fn map ->
-      {map, transpose(map)}
-    end)
   end
 
   defp transpose(map) do
