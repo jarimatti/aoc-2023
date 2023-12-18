@@ -4,6 +4,7 @@ defmodule Aoc2023.Day14 do
 
     map
     |> tilt_north(ranges)
+    |> calculate_load(ranges)
   end
 
   defp parse_data(data) do
@@ -94,5 +95,28 @@ defmodule Aoc2023.Day14 do
     map
     |> Map.put(to, :ball)
     |> Map.delete(from)
+  end
+
+  defp calculate_load(map, {_x_range, y_range}) do
+    scores = Enum.reverse(y_range) |> Enum.map(fn x -> x + 1 end)
+
+    y_range
+    |> Enum.zip(scores)
+    |> Enum.map(fn {y, score} ->
+      balls =
+        map
+        |> get_row(y)
+        |> Enum.filter(fn v -> v == :ball end)
+        |> Enum.count()
+
+      balls * score
+    end)
+    |> Enum.sum()
+  end
+
+  defp get_row(map, y) do
+    map
+    |> Map.filter(fn {{_, yy}, _} -> yy == y end)
+    |> Map.values()
   end
 end
