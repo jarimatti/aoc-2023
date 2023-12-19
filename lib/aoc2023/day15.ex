@@ -12,7 +12,15 @@ defmodule Aoc2023.Day15 do
   end
 
   def hash(s) do
-    # stub
-    0
+    hash(s, 0)
+  end
+
+  defp hash(<<>>, h), do: h
+  defp hash(<<c, rest::binary>>, h) do
+    hash(rest, char_hash(c + h))
+  end
+
+  defp char_hash(c) do
+    rem(c * 17, 256)
   end
 end
