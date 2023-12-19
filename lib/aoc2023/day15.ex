@@ -11,11 +11,22 @@ defmodule Aoc2023.Day15 do
     |> Enum.sum()
   end
 
+  def part2(data) do
+    # stub
+
+    data
+    |> String.trim()
+    |> String.split(",")
+
+    0
+  end
+
   def hash(s) do
     hash(s, 0)
   end
 
   defp hash(<<>>, h), do: h
+
   defp hash(<<c, rest::binary>>, h) do
     hash(rest, char_hash(c + h))
   end
