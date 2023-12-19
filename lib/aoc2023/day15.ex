@@ -1,4 +1,6 @@
 defmodule Aoc2023.Day15 do
+  alias Aoc2023.Day15.Apparatus
+
   def input() do
     File.read!("input/day15.txt")
   end
@@ -13,12 +15,15 @@ defmodule Aoc2023.Day15 do
 
   def part2(data) do
     # stub
-
     data
     |> String.trim()
     |> String.split(",")
+    |> Enum.reduce(Apparatus.new(), fn s, app ->
+      {box_id, op} = parse_instruction(s)
 
-    0
+      Apparatus.apply(app, box_id, op)
+    end)
+    |> Apparatus.focusing_power()
   end
 
   def hash(s) do
@@ -33,5 +38,12 @@ defmodule Aoc2023.Day15 do
 
   defp char_hash(c) do
     rem(c * 17, 256)
+  end
+
+  defp parse_instruction(s) do
+    case String.split(s, ~r/[-=]/) do
+      [label, ""] -> {hash(label), {:remove, label}}
+      [label, fl] -> {hash(label), {:upsert, label, String.to_integer(fl)}}
+    end
   end
 end
