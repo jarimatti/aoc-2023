@@ -1,5 +1,4 @@
 defmodule Aoc2023.Day14 do
-
   def input() do
     File.read!("input/day14.txt")
   end
