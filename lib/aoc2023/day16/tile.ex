@@ -1,5 +1,4 @@
 defmodule Aoc2023.Day16.Tile do
-
   def new(item) do
     %{
       item: item,
