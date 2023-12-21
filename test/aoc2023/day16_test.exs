@@ -3,21 +3,26 @@ defmodule Aoc2023.Day16Test do
 
   alias Aoc2023.Day16
 
-  test "part 1 sample data" do
-    data =
-      """
-      .|...\\....
-      |.-.\\.....
-      .....|-...
-      ........|.
-      ..........
-      .........\\
-      ..../.\\\\..
-      .-.-/..|..
-      .|....-|.\\
-      ..//.|....
-      """
+  def data() do
+    """
+    .|...\\....
+    |.-.\\.....
+    .....|-...
+    ........|.
+    ..........
+    .........\\
+    ..../.\\\\..
+    .-.-/..|..
+    .|....-|.\\
+    ..//.|....
+    """
+  end
 
-    assert Day16.part1(data) == 46
+  test "part 1 sample data" do
+    assert Day16.part1(data()) == 46
+  end
+
+  test "part 2 sample data" do
+    assert Day16.part2(data()) == 51
   end
 end

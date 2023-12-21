@@ -12,6 +12,11 @@ defmodule Aoc2023.Day16 do
     |> Enum.count(fn {_, tile} -> Tile.lit?(tile) end)
   end
 
+  def part2(data) do
+    # stub
+    0
+  end
+
   defp parse_data(data) do
     data
     |> String.split("\n")
