@@ -21,10 +21,13 @@ defmodule Aoc2023.Day16 do
 
     enters
     |> Enum.map(fn {pos, from} ->
-      map
-      |> light(pos, from)
-      |> count_energized()
+      Task.async(fn ->
+        map
+        |> light(pos, from)
+        |> count_energized()
+      end)
     end)
+    |> Enum.map(&Task.await/1)
     |> Enum.max()
   end
 
