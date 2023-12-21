@@ -8,13 +8,24 @@ defmodule Aoc2023.Day16 do
   def part1(data) do
     map = parse_data(data)
 
-    light(map, {0, 0}, :west)
-    |> Enum.count(fn {_, tile} -> Tile.lit?(tile) end)
+    map
+    |> light({0, 0}, :west)
+    |> count_energized()
   end
 
   def part2(data) do
-    # stub
-    0
+    map = parse_data(data)
+
+    {x_range, y_range} = ranges(map)
+    enters = make_enters(x_range, y_range)
+
+    enters
+    |> Enum.map(fn {pos, from} ->
+      map
+      |> light(pos, from)
+      |> count_energized()
+    end)
+    |> Enum.max()
   end
 
   defp parse_data(data) do
@@ -81,5 +92,39 @@ defmodule Aoc2023.Day16 do
 
     new_entries = Enum.map(exits, fn exit_dir -> next_position_with_entry(position, exit_dir) end)
     {t, new_entries}
+  end
+
+  defp count_energized(map) do
+    Enum.count(map, fn {_, tile} -> Tile.lit?(tile) end)
+  end
+
+  defp ranges(map) do
+    coordinates = Map.keys(map)
+
+    x_range =
+      coordinates
+      |> Enum.map(fn {x, _} -> x end)
+      |> Enum.min_max()
+
+    y_range =
+      coordinates
+      |> Enum.map(fn {_, y} -> y end)
+      |> Enum.min_max()
+
+    {x_range, y_range}
+  end
+
+  defp make_enters({x_min, x_max}, {y_min, y_max}) do
+    x_entries =
+      for x <- x_min..x_max, {y, from} <- [{y_min, :north}, {y_max, :south}] do
+        {{x, y}, from}
+      end
+
+    y_entries =
+      for y <- y_min..y_max, {x, from} <- [{x_min, :west}, {x_max, :east}] do
+        {{x, y}, from}
+      end
+
+    x_entries ++ y_entries
   end
 end
